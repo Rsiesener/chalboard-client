@@ -1,95 +1,71 @@
 /* eslint-disable no-tabs */
-import React, { Component, Fragment } from 'react'
-import { Route } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
-import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute'
 import AutoDismissAlert from './components/AutoDismissAlert/AutoDismissAlert'
 import Header from './components/Header/Header'
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
+import styles from './components/styles/app.module.css'
+import Home from './components/Home/Home'
+import LandingPage from './components/LandingPage/LandingPage'
 
-class App extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      user: null,
-      msgAlerts: []
-    }
+const App = () => {
+  const [user, setUser] = useState(null)
+  const [msgAlerts, setMsgAlerts] = useState([])
+  // const [updateReceived, setUpdateReceived] = useState(0)
+
+  useEffect(() => {
+    // const userFromStorage = localStorage.getItem('chalkBoardUser')
+    // if (userFromStorage) {
+    //   setUser(JSON.parse(userFromStorage))
+    // }
+  }, [])
+
+  const clearUser = () => {
+    setUser(null)
+    localStorage.removeItem('chalkBoardUser')
   }
-
-  setUser = (user) => this.setState({ user })
-
-  clearUser = () => this.setState({ user: null })
-
-  deleteAlert = (id) => {
-    this.setState((state) => {
-      return { msgAlerts: state.msgAlerts.filter((msg) => msg.id !== id) }
-    })
-  }
-
-  msgAlert = ({ heading, message, variant }) => {
+  const msgAlert = ({ heading, message, variant }) => {
     const id = uuid()
-    this.setState((state) => {
-      return {
-        msgAlerts: [...state.msgAlerts, { heading, message, variant, id }]
-      }
-    })
+    setMsgAlerts(msgAlerts => ([...msgAlerts, { heading, message, variant, id }]))
   }
 
-  render () {
-    const { msgAlerts, user } = this.state
+  // const updateReceivedCounter = () => {
+  //   setUpdateReceived(updateReceived + 1)
+  // }
 
-    return (
-      <Fragment>
-	      <Header user={user} />
-	      {msgAlerts.map((msgAlert) => (
+  return (
+    <div className={styles.container}>
+      <Header user={user} />
+      <div className={styles.body} style={{ backgroundImage: 'url(\'https://wallpaperaccess.com/full/1390896.jpg\')' }}>
+        {msgAlerts.map((msgAlert) => (
           <AutoDismissAlert
             key={msgAlert.id}
             heading={msgAlert.heading}
             variant={msgAlert.variant}
             message={msgAlert.message}
             id={msgAlert.id}
-            deleteAlert={this.deleteAlert}
           />
         ))}
-	      <main className='container'>
-	        <Route
-            path='/sign-up'
-            render={() => (
-              <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
-            )}
-          />
-          <Route
-            path='/sign-in'
-            render={() => (
-              <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
-            )}
-          />
-          <AuthenticatedRoute
-            user={user}
-            path='/sign-out'
-            render={() => (
-              <SignOut
-                msgAlert={this.msgAlert}
-                clearUser={this.clearUser}
-                user={user}
-              />
-            )}
-          />
-          <AuthenticatedRoute
-            user={user}
-            path='/change-password'
-            render={() => (
-              <ChangePassword msgAlert={this.msgAlert} user={user} />
-            )}
-          />
+        <main className={styles.content}>
+          <Routes>
+            <Route path='/' element={<LandingPage msgAlert={msgAlert} setUser={setUser} user={user} />} />
+            <Route path='/home' element={<Home user={user} />} />
+            <Route path='/sign-up' element={<SignUp msgAlert={msgAlert} setUser={setUser} />} />
+            <Route path='/sign-in' element={<SignIn msgAlert={msgAlert} setUser={setUser} />} />
+            <Route path='/sign-out' element={<SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />} />
+            <Route path='/change-password' element={<ChangePassword msgAlert={msgAlert} user={user} />} />
+            {/* <Route path='/folders/:id/' element={<Folder msgAlert={msgAlert} user={user} updateReceivedCounter={updateReceivedCounter} />} />
+            <Route path='/folders/:id/edit/' element={<UpdateFolder msgAlert={msgAlert} user={user} updateReceivedCounter={updateReceivedCounter} />} /> */}
+          </Routes>
         </main>
-      </Fragment>
-    )
-  }
+      </div>
+    </div>
+  )
 }
 
 export default App

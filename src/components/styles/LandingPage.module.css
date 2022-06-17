@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 2px solid red; */
+  height: 100%;
+  width: 100%;
+}
+
+.welcome {
+  display: flex;
+  justify-content: center;
+  /* border: 2px solid white; */
+  width: 95%;
+  height: 30%;
+  font-family: 'Fredericka the Great', cursive;
+  color: white;
+  font-size: 6vw;
+
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  height: 70%;
+
+}
+
+.buttons {
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  height: 30%;
+  width: 25%;
+  font-size: 3vw;
+  font-family: 'Fredericka the Great', cursive;
+  position: absolute;
+  margin-left: 25%;
+}
+
+.signIn {
+  /* border: 2px solid green; */
+  width: 33%;
+  font-family: 'Fredericka the Great', cursive;
+  color: white;
+}
+
+.signUp {
+  /* border: 2px solid blue; */
+  width: 33%;
+  font-family: 'Fredericka the Great', cursive;
+  color: white;
+}
+
+.signInBtn {
+  border: none;
+  background-color: inherit;
+  color: white;
+}
+
+.signInBtn:hover {
+  border: none;
+  background-color: inherit;
+  color: rgb(2, 165, 38);
+}
+
+.signUpBtn {
+  border: none;
+  background-color: inherit;
+  color: white;
+}
+
+.signUpBtn:hover {
+  border: none;
+  background-color: inherit;
+  color: rgb(2, 165, 38);
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}

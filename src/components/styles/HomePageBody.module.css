@@ -1,0 +1,28 @@
+.content {
+  border: 2px solid red;
+  height: 100%;
+  width: 50%;
+}
+
+.media {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  /* border: 2px solid green; */
+  height: 100%;
+  width: 50%;
+}
+
+.video {
+  border: 2px solid white;
+  width: 95%;
+  height: 45.5%;
+
+}
+
+.picture {
+  border: 2px solid blue;
+  width: 95%;
+  height: 45.5%;
+}
